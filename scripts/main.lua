@@ -135,6 +135,18 @@ function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, Sl
     LogDebug("------------------------------")
 end
 
-RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
+local Server_TrySwapItemsFunctionHookedPreId = nil
+local Server_TrySwapItemsFunctionHookedPostId = nil
+RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
+    LogDebug("[ClientRestart] called:")
+    if Server_TrySwapItemsFunctionHookedPreId and Server_TrySwapItemsFunctionHookedPostId then
+        LogDebug("Server_TrySwapItemsFunction is already hooked")
+        LogDebug("Server_TrySwapItemsFunctionHookedPreId: " .. Server_TrySwapItemsFunctionHookedPreId)
+        LogDebug("Server_TrySwapItemsFunctionHookedPostId: " .. Server_TrySwapItemsFunctionHookedPostId)
+    else
+        Server_TrySwapItemsFunctionHookedPreId, Server_TrySwapItemsFunctionHookedPostId = RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
+    end
+    LogDebug("------------------------------")
+end)
 
 LogInfo("Mod loaded successfully")
