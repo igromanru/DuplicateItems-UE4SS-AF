@@ -18,12 +18,17 @@ local ToggleModKeyModifiers = {}
 -- Don't change code below --
 ------------------------------
 local ModName = "DuplicateItems"
+local ModVersion = "1.0.0"
 local DebugMode = true
 
 local AFUtils = require("./AFUtils/AFUtils")
 
+local function GetModInfoPrefix()
+    return string.format("[%s v%s]", ModName, ModVersion)
+end
+
 local function LogInfo(message)
-    print(string.format("[%s] %s\n", ModName, message))
+    print(string.format("%s %s\n", GetModInfoPrefix(), message))
 end
 
 local function LogDebug(message)
@@ -55,7 +60,7 @@ local function LogInventoryChangeableDataStruct(ChangeableData, Prefix)
 end
 
 local function ModDisplayTextChatMessage(Message)
-    local prefix = string.format("[%s]", ModName)
+    local prefix = GetModInfoPrefix()
     LogDebug("ModDisplayTextChatMessage Prefix: " .. prefix .. ", Message: " .. Message)
     AFUtils.DisplayTextChatMessage(Message, prefix)
 end
