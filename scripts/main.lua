@@ -18,7 +18,7 @@ local ToggleModKeyModifiers = {}
 ------------------------------
 local ModName = "DuplicateItems"
 local ModVersion = "1.0.0"
-local DebugMode = true
+local DebugMode = false
 
 local AFUtils = require("./AFUtils/AFUtils")
 
