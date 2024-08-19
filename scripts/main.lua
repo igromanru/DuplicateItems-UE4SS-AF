@@ -4,8 +4,15 @@
     Mod Name: Duplicate Items
 ]]
 
--- Hotkey to toggle the mod
+-------------------------------------
+-- Hotkey to toggle the mod on/off --
+-- Possible keys: https://github.com/UE4SS-RE/RE-UE4SS/blob/main/docs/lua-api/table-definitions/key.md
 local ToggleModKey = Key.L
+-- See ModifierKey: https://github.com/UE4SS-RE/RE-UE4SS/blob/main/docs/lua-api/table-definitions/modifierkey.md
+-- ModifierKeys can be combined. e.g.: {ModifierKey.CONTROL, ModifierKey.ALT} = CTRL + ALT + L
+local ToggleModKeyModifiers = {}
+-------------------------------------
+
 
 ------------------------------
 -- Don't change code below --
@@ -82,12 +89,12 @@ local function SetModState(Enable)
         if IsModEnabled then
             state = "Enabled"
         end
-        LogDebug("Mod state changed to: " .. state)
+        LogInfo("Mod state changed to: " .. state)
         ModDisplayTextChatMessage(state)
     end)
 end
 
-RegisterKeyBind(ToggleModKey, function()
+RegisterKeyBind(ToggleModKey, ToggleModKeyModifiers, function()
     SetModState(not IsModEnabled)
 end)
 
