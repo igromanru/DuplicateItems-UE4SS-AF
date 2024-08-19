@@ -109,15 +109,17 @@ end)
 ---@param SlotIndex2 int32
 local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
     local this = Context:get()
-    local originInventory = Inventory1:get()
+    -- local originInventory = Inventory1:get()
     local originSlotIndex = SlotIndex1:get()
     local targetInventory = Inventory2:get()
     local targetSlotIndex = SlotIndex2:get()
     
-    LogDebug("[Server_TrySwapItems] called:")
-    LogDebug("SlotIndex1: " .. originSlotIndex)
-    LogDebug("SlotIndex2: " .. targetSlotIndex)
-
+    if DebugMode then
+        LogDebug("[Server_TrySwapItems] called:")
+        LogDebug("SlotIndex1: " .. originSlotIndex)
+        LogDebug("SlotIndex2: " .. targetSlotIndex)
+    end
+    
     if IsModEnabled then
         local myPlayer = AFUtils.GetMyPlayer()
         -- Check if it's the local player
