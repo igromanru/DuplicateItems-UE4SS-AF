@@ -7,7 +7,7 @@
 -------------------------------------
 -- Hotkey to toggle the mod on/off --
 -- Possible keys: https://github.com/UE4SS-RE/RE-UE4SS/blob/main/docs/lua-api/table-definitions/key.md
-local ToggleModKey = Key.L
+local ToggleModKey = Key.F5
 -- See ModifierKey: https://github.com/UE4SS-RE/RE-UE4SS/blob/main/docs/lua-api/table-definitions/modifierkey.md
 -- ModifierKeys can be combined. e.g.: {ModifierKey.CONTROL, ModifierKey.ALT} = CTRL + ALT + L
 local ToggleModKeyModifiers = {}
@@ -60,7 +60,7 @@ end
 
 local function ModDisplayTextChatMessage(Message)
     local prefix = GetModInfoPrefix()
-    LogDebug("ModDisplayTextChatMessage Prefix: " .. prefix .. ", Message: " .. Message)
+    -- LogDebug("ModDisplayTextChatMessage Prefix: " .. prefix .. ", Message: " .. Message)
     AFUtils.DisplayTextChatMessage(Message, prefix)
 end
 
@@ -107,7 +107,7 @@ end)
 ---@param SlotIndex1 int32
 ---@param Inventory2 UAbiotic_InventoryComponent_C
 ---@param SlotIndex2 int32
-function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
+local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
     local this = Context:get()
     local originInventory = Inventory1:get()
     local originSlotIndex = SlotIndex1:get()
@@ -135,17 +135,25 @@ function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, Sl
     LogDebug("------------------------------")
 end
 
-local Server_TrySwapItemsFunctionHookedPreId = nil
-local Server_TrySwapItemsFunctionHookedPostId = nil
+local Server_TrySwapItemsName = "/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems"
+local Server_TrySwapItemsPreId = nil
+local Server_TrySwapItemsPostId = nil
+local function HookFunctionServer_TrySwapItems()
+    if Server_TrySwapItemsPreId and Server_TrySwapItemsPostId then
+        LogDebug("Server_TrySwapItemsFunction is already hooked, unhooking")
+        UnregisterHook(Server_TrySwapItemsName, Server_TrySwapItemsPreId, Server_TrySwapItemsPostId)
+    end
+    Server_TrySwapItemsPreId, Server_TrySwapItemsPostId = RegisterHook(Server_TrySwapItemsName, Server_TrySwapItemsHook)
+end
+
+-- For hot reload
+if DebugMode then
+    HookFunctionServer_TrySwapItems()
+end
+
 RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
     LogDebug("[ClientRestart] called:")
-    if Server_TrySwapItemsFunctionHookedPreId and Server_TrySwapItemsFunctionHookedPostId then
-        LogDebug("Server_TrySwapItemsFunction is already hooked")
-        LogDebug("Server_TrySwapItemsFunctionHookedPreId: " .. Server_TrySwapItemsFunctionHookedPreId)
-        LogDebug("Server_TrySwapItemsFunctionHookedPostId: " .. Server_TrySwapItemsFunctionHookedPostId)
-    else
-        Server_TrySwapItemsFunctionHookedPreId, Server_TrySwapItemsFunctionHookedPostId = RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
-    end
+    HookFunctionServer_TrySwapItems()
     LogDebug("------------------------------")
 end)
 
