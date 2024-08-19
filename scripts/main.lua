@@ -1,6 +1,6 @@
 --[[
     Author: Igromanru
-    Date: 16.08.2024
+    Date: 19.08.2024
     Mod Name: Duplicate Items
 ]]
 
@@ -12,7 +12,6 @@ local ToggleModKey = Key.L
 -- ModifierKeys can be combined. e.g.: {ModifierKey.CONTROL, ModifierKey.ALT} = CTRL + ALT + L
 local ToggleModKeyModifiers = {}
 -------------------------------------
-
 
 ------------------------------
 -- Don't change code below --
