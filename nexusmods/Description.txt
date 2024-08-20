@@ -29,15 +29,16 @@ See: [url=https://github.com/UE4SS-RE/RE-UE4SS/blob/main/docs/lua-api/table-defi
 
 [font=Verdana][size=4][b]How to use[/b][/size][/font]
 [size=2]The mod is fairly easy to use. [/size]
-[list]
-[*]When you press mod's toggle key (Default F5) the mod will print to game's chat it's new state (Enabled/Disabled).  
+[list][*]When you press mod's toggle key (Default F5) the mod will print to game's chat it's new state (Enabled/Disabled).  
 [*]Mod's chat message should only be visible to you. (untested)
 [*]You can toggle the mod any time, even if the chat is not visible.
 [*]While the mod is enabled, each time you move an Item between any inventory slots, it will double it's stack count. It works for all items and you can always split the stack!
 [*]Splitting stacks doesn't trigger the mod, only moving/swapping an item.
 [*]The mod works in singleplayer or if you're host [size=2](untested, but technically it should work)[/size].
 [/list]
-
+[font=Verdana][size=4][b]Tips[/b][/size][/font]
+[list][*]You can use the [url=https://www.nexusmods.com/abioticfactor/mods/6]Just Press Q[/url] mod to deal with stacks faster
+[/list]
 [font=Verdana][size=4][b]Mechanics and Feedback[/b][/size][/font]
 Duo to current UE4SS limitations and overall design of the game I had hard time to find a way to duplicate items.
 Ideally I would like to create a copy of an item instead of increasing the stack.
