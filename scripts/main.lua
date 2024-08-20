@@ -19,14 +19,8 @@ local ToggleModKeyModifiers = {}
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.1.0"
+ModVersion = "1.0.1"
 DebugMode = true
-
-local function ModDisplayTextChatMessage(Message)
-    local prefix = GetModInfoPrefix()
-    -- LogDebug("ModDisplayTextChatMessage Prefix: " .. prefix .. ", Message: " .. Message)
-    AFUtils.DisplayTextChatMessage(Message, prefix)
-end
 
 ---@param Inventory UAbiotic_InventoryComponent_C
 ---@param SlotIndex integer
@@ -58,7 +52,7 @@ local function SetModState(Enable)
             state = "Enabled"
         end
         LogInfo("Mod state changed to: " .. state)
-        ModDisplayTextChatMessage(state)
+        AFUtils.ModDisplayTextChatMessage(state)
     end)
 end
 
@@ -73,16 +67,14 @@ end)
 ---@param SlotIndex2 int32
 local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
     local this = Context:get()
-    local originInventory = Inventory1:get()
+    -- local originInventory = Inventory1:get()
     local originSlotIndex = SlotIndex1:get()
     local targetInventory = Inventory2:get()
     local targetSlotIndex = SlotIndex2:get()
-    
-    if DebugMode then
-        LogDebug("[Server_TrySwapItems] called:")
-        LogDebug("SlotIndex1: " .. originSlotIndex)
-        LogDebug("SlotIndex2: " .. targetSlotIndex)
-    end
+
+    LogDebug("[Server_TrySwapItems] called:")
+    LogDebug("SlotIndex1: " .. originSlotIndex)
+    LogDebug("SlotIndex2: " .. targetSlotIndex)
 
     if IsModEnabled then
         local myPlayer = AFUtils.GetMyPlayer()
