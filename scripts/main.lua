@@ -16,47 +16,11 @@ local ToggleModKeyModifiers = {}
 ------------------------------
 -- Don't change code below --
 ------------------------------
-local ModName = "DuplicateItems"
-local ModVersion = "1.0.0"
-local DebugMode = false
+local AFUtils = require("AFUtils.AFUtils")
 
-local AFUtils = require("./AFUtils/AFUtils")
-
-local function GetModInfoPrefix()
-    return string.format("[%s v%s]", ModName, ModVersion)
-end
-
-local function LogInfo(message)
-    print(string.format("%s %s\n", GetModInfoPrefix(), message))
-end
-
-local function LogDebug(message)
-    if DebugMode then
-        LogInfo(message)
-    end
-end
-
----Logs in debug scope all relevant properties of a FAbiotic_InventoryChangeableDataStruct to console 
----@param ChangeableData FAbiotic_InventoryChangeableDataStruct
----@param Prefix string? Prefix that should be added in front of each line
-local function LogInventoryChangeableDataStruct(ChangeableData, Prefix)
-    if not ChangeableData then
-        return
-    end
-    if not Prefix then
-        Prefix = ""
-    end
-
-    if ChangeableData.AssetID_25_06DB7A12469849D19D5FC3BA6BEDEEAB then
-        LogDebug(Prefix .. "AssetID: " .. ChangeableData.AssetID_25_06DB7A12469849D19D5FC3BA6BEDEEAB:ToString())
-    end
-    LogDebug(Prefix .. "CurrentItemDurability: " .. ChangeableData.CurrentItemDurability_4_24B4D0E64E496B43FB8D3CA2B9D161C8)
-    LogDebug(Prefix .. "MaxItemDurability: " .. ChangeableData.MaxItemDurability_6_F5D5F0D64D4D6050CCCDE4869785012B)
-    LogDebug(Prefix .. "CurrentStack: " .. ChangeableData.CurrentStack_9_D443B69044D640B0989FD8A629801A49)
-    LogDebug(Prefix .. "CurrentAmmoInMagazine: " .. ChangeableData.CurrentAmmoInMagazine_12_D68C190F4B2FA78A4B1D57835B95C53D)
-    LogDebug(Prefix .. "LiquidLevel: " .. ChangeableData.LiquidLevel_46_D6414A6E49082BC020AADC89CC29E35A)
-    LogDebug(Prefix .. "CurrentLiquid (enum): " .. ChangeableData.CurrentLiquid_19_3E1652F448223AAE5F405FB510838109)
-end
+ModName = "DuplicateItems"
+ModVersion = "1.1.0"
+DebugMode = true
 
 local function ModDisplayTextChatMessage(Message)
     local prefix = GetModInfoPrefix()
@@ -109,7 +73,7 @@ end)
 ---@param SlotIndex2 int32
 local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
     local this = Context:get()
-    -- local originInventory = Inventory1:get()
+    local originInventory = Inventory1:get()
     local originSlotIndex = SlotIndex1:get()
     local targetInventory = Inventory2:get()
     local targetSlotIndex = SlotIndex2:get()
@@ -119,7 +83,7 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
         LogDebug("SlotIndex1: " .. originSlotIndex)
         LogDebug("SlotIndex2: " .. targetSlotIndex)
     end
-    
+
     if IsModEnabled then
         local myPlayer = AFUtils.GetMyPlayer()
         -- Check if it's the local player
