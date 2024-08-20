@@ -37,3 +37,8 @@ See: [url=https://github.com/UE4SS-RE/RE-UE4SS/blob/main/docs/lua-api/table-defi
 [*]Splitting stacks doesn't trigger the mod, only moving/swapping an item.
 [*]The mod works in singleplayer or if you're host [size=2](untested, but technically it should work)[/size].
 [/list]
+
+[font=Verdana][size=4][b]Mechanics and Feedback[/b][/size][/font]
+Duo to current UE4SS limitations and overall design of the game I had hard time to find a way to duplicate items.
+Ideally I would like to create a copy of an item instead of increasing the stack.
+You're still welcome to give suggestions what can be improved and I'll see if it's something I can do.
