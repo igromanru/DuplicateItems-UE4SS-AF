@@ -93,25 +93,22 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
     LogDebug("------------------------------")
 end
 
-local Server_TrySwapItemsName = "/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems"
-local Server_TrySwapItemsPreId = nil
-local Server_TrySwapItemsPostId = nil
-local function HookFunctionServer_TrySwapItems()
-    if Server_TrySwapItemsPreId and Server_TrySwapItemsPostId then
-        LogDebug("Server_TrySwapItemsFunction is already hooked, unhooking")
-        UnregisterHook(Server_TrySwapItemsName, Server_TrySwapItemsPreId, Server_TrySwapItemsPostId)
+local IsServer_TrySwapItemsHooked = false
+local function HookServer_TrySwapItems()
+    if not IsServer_TrySwapItemsHooked then
+        RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
+        IsServer_TrySwapItemsHooked = true
     end
-    Server_TrySwapItemsPreId, Server_TrySwapItemsPostId = RegisterHook(Server_TrySwapItemsName, Server_TrySwapItemsHook)
 end
 
 -- For hot reload
 if DebugMode then
-    HookFunctionServer_TrySwapItems()
+    HookServer_TrySwapItems()
 end
 
 RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
     LogDebug("[ClientRestart] called:")
-    HookFunctionServer_TrySwapItems()
+    HookServer_TrySwapItems()
     LogDebug("------------------------------")
 end)
 

@@ -43,3 +43,5 @@ See: [url=https://github.com/UE4SS-RE/RE-UE4SS/blob/main/docs/lua-api/table-defi
 Duo to current UE4SS limitations and overall design of the game I had hard time to find a way to duplicate items.
 Ideally I would like to create a copy of an item instead of increasing the stack.
 You're still welcome to give suggestions what can be improved and I'll see if it's something I can do.
+
+[b][url=https://github.com/igromanru/DuplicateItems_UE4SS_AF]GitHub Page[/url][/b]
