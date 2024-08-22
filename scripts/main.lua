@@ -20,7 +20,7 @@ local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
 ModVersion = "1.0.1"
-DebugMode = true
+DebugMode = false
 
 ---@param Inventory UAbiotic_InventoryComponent_C
 ---@param SlotIndex integer
@@ -48,11 +48,14 @@ local function SetModState(Enable)
         Enable = Enable or false
         IsModEnabled = Enable
         local state = "Disabled"
+        local warningColor =  AFUtils.CriticalityLevels.Gray
         if IsModEnabled then
             state = "Enabled"
+            warningColor =  AFUtils.CriticalityLevels.Green
         end
         LogInfo("Mod state changed to: " .. state)
         AFUtils.ModDisplayTextChatMessage(state)
+        AFUtils.ClientDisplayWarningMessage(ModName.." "..state, warningColor)
     end)
 end
 
