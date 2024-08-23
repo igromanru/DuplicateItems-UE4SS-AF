@@ -75,9 +75,9 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
     local targetInventory = Inventory2:get()
     local targetSlotIndex = SlotIndex2:get()
 
-    LogDebug("[Server_TrySwapItems] called:")
-    LogDebug("SlotIndex1: " .. originSlotIndex)
-    LogDebug("SlotIndex2: " .. targetSlotIndex)
+    -- LogDebug("[Server_TrySwapItems] called:")
+    -- LogDebug("SlotIndex1: " .. originSlotIndex)
+    -- LogDebug("SlotIndex2: " .. targetSlotIndex)
 
     if IsModEnabled then
         local myPlayer = AFUtils.GetMyPlayer()
@@ -93,7 +93,7 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
             end
         end
     end
-    LogDebug("------------------------------")
+    -- LogDebug("------------------------------")
 end
 
 local IsServer_TrySwapItemsHooked = false
