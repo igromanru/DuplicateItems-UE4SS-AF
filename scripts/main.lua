@@ -26,14 +26,14 @@ DebugMode = false
 ---@param SlotIndex integer
 ---@return integer CurrentStack Bigger than 0 is valid, otherwise failed
 local function GetItemSlotCurrentStack(Inventory, SlotIndex)
-    LogDebug("GetItemSlotCurrentStack: SlotIndex: " .. SlotIndex)
+    -- LogDebug("GetItemSlotCurrentStack: SlotIndex: " .. SlotIndex)
     local itemSlot = AFUtils.GetInventoryItemSlot(Inventory, SlotIndex)
     if itemSlot and itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313 then
         local currentStack = itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentStack_9_D443B69044D640B0989FD8A629801A49
-        LogDebug("GetItemSlotCurrentStack: CurrentStack: " .. currentStack)
+        -- LogDebug("GetItemSlotCurrentStack: CurrentStack: " .. currentStack)
         return currentStack
     else
-        LogDebug("GetItemSlotCurrentStack: Couldn't find an item in slot: " .. SlotIndex)
+        -- LogDebug("GetItemSlotCurrentStack: Couldn't find an item in slot: " .. SlotIndex)
     end
 
     return 0
