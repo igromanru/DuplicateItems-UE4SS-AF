@@ -19,7 +19,7 @@ local ToggleModKeyModifiers = {}
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.0.1"
+ModVersion = "1.0.2"
 DebugMode = false
 
 ---@param Inventory UAbiotic_InventoryComponent_C
@@ -59,17 +59,13 @@ local function SetModState(Enable)
     end)
 end
 
-RegisterKeyBind(ToggleModKey, ToggleModKeyModifiers, function()
-    SetModState(not IsModEnabled)
-end)
-
 ---@param Context AAbiotic_PlayerCharacter_C
 ---@param Inventory1 UAbiotic_InventoryComponent_C
 ---@param SlotIndex1 int32
 ---@param Inventory2 UAbiotic_InventoryComponent_C
 ---@param SlotIndex2 int32
 local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
-    local this = Context:get()
+    local playerCharacter = Context:get()
     -- local originInventory = Inventory1:get()
     local originSlotIndex = SlotIndex1:get()
     local targetInventory = Inventory2:get()
@@ -80,17 +76,14 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
     -- LogDebug("SlotIndex2: " .. targetSlotIndex)
 
     if IsModEnabled then
-        local myPlayer = AFUtils.GetMyPlayer()
-        -- Check if it's the local player
-        if myPlayer and this:GetAddress() == myPlayer:GetAddress() then
-            local myPlayerController = AFUtils.GetMyPlayerController()
-            if myPlayerController then
-                local currentItemStack = GetItemSlotCurrentStack(targetInventory, targetSlotIndex)
-                if not currentItemStack or currentItemStack <= 0 then
-                    currentItemStack = 1
-                end
-                myPlayerController:Server_AddToItemStack(targetInventory, targetSlotIndex, currentItemStack)
+        local myPlayerController = AFUtils.GetMyPlayerController()
+        if myPlayerController and myPlayerController.MyPlayerCharacter:IsValid()
+                and myPlayerController.MyPlayerCharacter:GetAddress() == playerCharacter:GetAddress() then
+            local currentItemStack = GetItemSlotCurrentStack(targetInventory, targetSlotIndex)
+            if not currentItemStack or currentItemStack <= 0 then
+                currentItemStack = 1
             end
+            myPlayerController:Server_AddToItemStack(targetInventory, targetSlotIndex, currentItemStack)
         end
     end
     -- LogDebug("------------------------------")
@@ -110,9 +103,13 @@ if DebugMode then
 end
 
 RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
-    LogDebug("[ClientRestart] called:")
+    -- LogDebug("[ClientRestart] called:")
     HookServer_TrySwapItems()
-    LogDebug("------------------------------")
+    -- LogDebug("------------------------------")
+end)
+
+RegisterKeyBind(ToggleModKey, ToggleModKeyModifiers, function()
+    SetModState(not IsModEnabled)
 end)
 
 LogInfo("Mod loaded successfully")
