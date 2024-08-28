@@ -19,8 +19,8 @@ local ToggleModKeyModifiers = {}
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.0.2"
-DebugMode = false
+ModVersion = "1.0.3"
+DebugMode = true
 
 ---@param Inventory UAbiotic_InventoryComponent_C
 ---@param SlotIndex integer
@@ -41,7 +41,7 @@ end
 
 LogInfo("Starting mod initialization")
 
-local IsModEnabled = false
+IsModEnabled = false
 
 local function SetModState(Enable)
     ExecuteInGameThread(function()
