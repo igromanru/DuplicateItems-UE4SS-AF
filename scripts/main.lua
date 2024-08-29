@@ -92,8 +92,7 @@ end
 local IsServer_TrySwapItemsHooked = false
 local function HookServer_TrySwapItems()
     if not IsServer_TrySwapItemsHooked then
-        RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
-        IsServer_TrySwapItemsHooked = true
+        IsServer_TrySwapItemsHooked = TryRegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
     end
 end
 
