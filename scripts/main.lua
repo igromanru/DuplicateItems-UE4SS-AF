@@ -25,23 +25,6 @@ IsModEnabled = false
 
 LogInfo("Starting mod initialization")
 
----@param Inventory UAbiotic_InventoryComponent_C
----@param SlotIndex integer
----@return integer CurrentStack Bigger than 0 is valid, otherwise failed
-local function GetItemSlotCurrentStack(Inventory, SlotIndex)
-    -- LogDebug("GetItemSlotCurrentStack: SlotIndex: " .. SlotIndex)
-    local itemSlot = AFUtils.GetInventoryItemSlot(Inventory, SlotIndex)
-    if itemSlot and itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313 then
-        local currentStack = itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentStack_9_D443B69044D640B0989FD8A629801A49
-        -- LogDebug("GetItemSlotCurrentStack: CurrentStack: " .. currentStack)
-        return currentStack
-    else
-        -- LogDebug("GetItemSlotCurrentStack: Couldn't find an item in slot: " .. SlotIndex)
-    end
-
-    return 0
-end
-
 local function SetModState(Enable)
     ExecuteInGameThread(function()
         Enable = Enable or false
@@ -53,7 +36,7 @@ local function SetModState(Enable)
             warningColor =  AFUtils.CriticalityLevels.Green
         end
         LogInfo("Mod state changed to: " .. state)
-        AFUtils.ModDisplayTextChatMessage(state)
+        -- AFUtils.ModDisplayTextChatMessage(state)
         AFUtils.ClientDisplayWarningMessage(ModName.." "..state, warningColor)
     end)
 end
