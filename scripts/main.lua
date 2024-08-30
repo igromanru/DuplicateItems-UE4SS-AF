@@ -19,8 +19,11 @@ local ToggleModKeyModifiers = {}
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.0.3"
+ModVersion = "1.0.4"
 DebugMode = true
+IsModEnabled = false
+
+LogInfo("Starting mod initialization")
 
 ---@param Inventory UAbiotic_InventoryComponent_C
 ---@param SlotIndex integer
@@ -39,16 +42,12 @@ local function GetItemSlotCurrentStack(Inventory, SlotIndex)
     return 0
 end
 
-LogInfo("Starting mod initialization")
-
-IsModEnabled = false
-
 local function SetModState(Enable)
     ExecuteInGameThread(function()
         Enable = Enable or false
         IsModEnabled = Enable
         local state = "Disabled"
-        local warningColor =  AFUtils.CriticalityLevels.Gray
+        local warningColor =  AFUtils.CriticalityLevels.Red
         if IsModEnabled then
             state = "Enabled"
             warningColor =  AFUtils.CriticalityLevels.Green
@@ -67,7 +66,7 @@ end
 local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
     local playerCharacter = Context:get()
     -- local originInventory = Inventory1:get()
-    local originSlotIndex = SlotIndex1:get()
+    -- local originSlotIndex = SlotIndex1:get() ---@type integer
     local targetInventory = Inventory2:get()
     local targetSlotIndex = SlotIndex2:get()
 
@@ -77,13 +76,17 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
 
     if IsModEnabled then
         local myPlayerController = AFUtils.GetMyPlayerController()
-        if myPlayerController and myPlayerController.MyPlayerCharacter:IsValid()
-                and myPlayerController.MyPlayerCharacter:GetAddress() == playerCharacter:GetAddress() then
-            local currentItemStack = GetItemSlotCurrentStack(targetInventory, targetSlotIndex)
-            if not currentItemStack or currentItemStack <= 0 then
-                currentItemStack = 1
+        if myPlayerController and myPlayerController.MyPlayerCharacter:IsValid() and myPlayerController.MyPlayerCharacter:GetAddress() == playerCharacter:GetAddress() then
+            local itemSlot = AFUtils.GetInventoryItemSlot(targetInventory, targetSlotIndex)
+            if itemSlot then
+                local currentItemStack = itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentStack_9_D443B69044D640B0989FD8A629801A49
+                if not currentItemStack or currentItemStack < 2 then
+                    currentItemStack = 2
+                else
+                    currentItemStack = currentItemStack * 2
+                end
+                itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentStack_9_D443B69044D640B0989FD8A629801A49 = currentItemStack
             end
-            myPlayerController:Server_AddToItemStack(targetInventory, targetSlotIndex, currentItemStack)
         end
     end
     -- LogDebug("------------------------------")
