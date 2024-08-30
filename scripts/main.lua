@@ -20,7 +20,7 @@ local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
 ModVersion = "1.0.4"
-DebugMode = true
+DebugMode = false
 IsModEnabled = false
 
 LogInfo("Starting mod initialization")
@@ -35,9 +35,10 @@ local function SetModState(Enable)
             state = "Enabled"
             warningColor =  AFUtils.CriticalityLevels.Green
         end
-        LogInfo("Mod state changed to: " .. state)
+        local message = "Duplicate Items " .. state
+        LogInfo(message)
         -- AFUtils.ModDisplayTextChatMessage(state)
-        AFUtils.ClientDisplayWarningMessage(ModName.." "..state, warningColor)
+        AFUtils.ClientDisplayWarningMessage(message, warningColor)
     end)
 end
 
