@@ -19,7 +19,7 @@ local ToggleModKeyModifiers = {}
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.0.4"
+ModVersion = "1.0.3"
 DebugMode = false
 IsModEnabled = false
 
@@ -37,7 +37,6 @@ local function SetModState(Enable)
         end
         local message = "Duplicate Items " .. state
         LogInfo(message)
-        -- AFUtils.ModDisplayTextChatMessage(state)
         AFUtils.ClientDisplayWarningMessage(message, warningColor)
     end)
 end
