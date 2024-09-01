@@ -19,7 +19,7 @@ local ToggleModKeyModifiers = {}
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.0.3"
+ModVersion = "1.0.4"
 DebugMode = true
 IsModEnabled = false
 
@@ -43,8 +43,8 @@ end
 
 local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
     local playerCharacter = Context:get() ---@type AAbiotic_PlayerCharacter_C
-    local originInventory = Inventory1:get() ---@type UAbiotic_InventoryComponent_C
-    local originSlotIndex = SlotIndex1:get() ---@type integer
+    -- local originInventory = Inventory1:get() ---@type UAbiotic_InventoryComponent_C
+    -- local originSlotIndex = SlotIndex1:get() ---@type integer
     local targetInventory = Inventory2:get() ---@type UAbiotic_InventoryComponent_C
     local targetSlotIndex = SlotIndex2:get() ---@type integer
 
@@ -58,12 +58,10 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
             local itemSlot = AFUtils.GetInventoryItemSlot(targetInventory, targetSlotIndex)
             if itemSlot then
                 local currentItemStack = itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentStack_9_D443B69044D640B0989FD8A629801A49
-                if not currentItemStack or currentItemStack < 2 then
-                    currentItemStack = 2
-                else
-                    currentItemStack = currentItemStack * 2
+                if not currentItemStack or currentItemStack < 1 then
+                    currentItemStack = 1
                 end
-                itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentStack_9_D443B69044D640B0989FD8A629801A49 = currentItemStack
+                myPlayerController:Server_AddToItemStack(targetInventory, targetSlotIndex, currentItemStack)
             end
         end
     end
