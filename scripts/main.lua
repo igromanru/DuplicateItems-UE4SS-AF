@@ -20,7 +20,7 @@ local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
 ModVersion = "1.0.3"
-DebugMode = false
+DebugMode = true
 IsModEnabled = false
 
 LogInfo("Starting mod initialization")
@@ -41,22 +41,17 @@ local function SetModState(Enable)
     end)
 end
 
----@param Context AAbiotic_PlayerCharacter_C
----@param Inventory1 UAbiotic_InventoryComponent_C
----@param SlotIndex1 int32
----@param Inventory2 UAbiotic_InventoryComponent_C
----@param SlotIndex2 int32
 local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
-    local playerCharacter = Context:get()
-    -- local originInventory = Inventory1:get()
-    -- local originSlotIndex = SlotIndex1:get() ---@type integer
-    local targetInventory = Inventory2:get()
-    local targetSlotIndex = SlotIndex2:get()
+    local playerCharacter = Context:get() ---@type AAbiotic_PlayerCharacter_C
+    local originInventory = Inventory1:get() ---@type UAbiotic_InventoryComponent_C
+    local originSlotIndex = SlotIndex1:get() ---@type integer
+    local targetInventory = Inventory2:get() ---@type UAbiotic_InventoryComponent_C
+    local targetSlotIndex = SlotIndex2:get() ---@type integer
 
     -- LogDebug("[Server_TrySwapItems] called:")
     -- LogDebug("SlotIndex1: " .. originSlotIndex)
     -- LogDebug("SlotIndex2: " .. targetSlotIndex)
-
+    
     if IsModEnabled then
         local myPlayerController = AFUtils.GetMyPlayerController()
         if myPlayerController and myPlayerController.MyPlayerCharacter:IsValid() and myPlayerController.MyPlayerCharacter:GetAddress() == playerCharacter:GetAddress() then
