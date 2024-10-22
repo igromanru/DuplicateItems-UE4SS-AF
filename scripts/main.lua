@@ -44,6 +44,19 @@ local function SetModState(Enable)
     end)
 end
 
+---Returns false if should be filtered out
+---@param PlayerCharacter AAbiotic_PlayerCharacter_C
+---@param TargetInventory UAbiotic_InventoryComponent_C
+---@return boolean
+local function PlayerEquipmentAndHotbarFilter(PlayerCharacter, TargetInventory)
+    local TargetInventoryAddress = TargetInventory:GetAddress()
+    if (IsValid(PlayerCharacter.CharacterEquipSlotInventory) and PlayerCharacter.CharacterEquipSlotInventory:GetAddress() == TargetInventoryAddress)
+        or (IsValid(PlayerCharacter.CharacterHotbarInventory) and PlayerCharacter.CharacterHotbarInventory:GetAddress() == TargetInventoryAddress) then
+        return false
+    end
+    return true
+end
+
 local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventory2, SlotIndex2)
     local playerCharacter = Context:get() ---@type AAbiotic_PlayerCharacter_C
     -- local originInventory = Inventory1:get() ---@type UAbiotic_InventoryComponent_C
@@ -51,12 +64,12 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
     local targetInventory = Inventory2:get() ---@type UAbiotic_InventoryComponent_C
     local targetSlotIndex = SlotIndex2:get() ---@type integer
 
-    -- LogDebug("[Server_TrySwapItems] called:")
+    LogDebug("[Server_TrySwapItems] called:")
     -- LogDebug("SlotIndex1: " .. originSlotIndex)
-    -- LogDebug("SlotIndex2: " .. targetSlotIndex)
+    LogDebug("SlotIndex2: " .. targetSlotIndex)
     
     if (IsModEnabled or (WhileHoldingKeypadHacker and AFUtils.IsHoldingKeypadHacker(playerCharacter))) and IsValid(targetInventory) then
-        if IsNotValid(playerCharacter.CharacterEquipSlotInventory) or playerCharacter.CharacterEquipSlotInventory:GetAddress() ~= targetInventory:GetAddress() then
+        if PlayerEquipmentAndHotbarFilter(playerCharacter, targetInventory) then
             local playerController = AFUtils.GetPlayerController(playerCharacter)
             if IsValid(playerController) then
                 local itemSlot = AFUtils.GetInventoryItemSlot(targetInventory, targetSlotIndex)
@@ -70,7 +83,7 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
             end
         end
     end
-    -- LogDebug("------------------------------")
+    LogDebug("------------------------------")
 end
 
 local IsServer_TrySwapItemsHooked = false
