@@ -2,7 +2,7 @@
 While active the mod duplicates item's stack each time you move an item from one inventory slot to another.
 Default Hotkey to toggle the mod is [b]F5[/b] but you can change it in the [i]main.lua[/i] file. (see Configuration section below)
 Since v1.1.0 as alternative to the hotkey, you can hold any [url=https://abioticfactor.wiki.gg/wiki/Keypad_Hacker]Keypad Hacker[/url] in your hands to enable the mod.
-The Keypad Hacker has to be in the Hotbar and visible in your hands! You can disable the feature in the [i]main.lua[/i].
+The Keypad Hacker has to be placed and selected in the Hotbar! You can disable the feature in the [i]main.lua[/i].
 For more information see the [b]Mod Configuration[/b] and [b]Multiplayer / Dedicated Server[/b] section below.
 
 [font=Verdana][size=4][b]Requirements[/b][/size][/font]
@@ -38,7 +38,7 @@ See: [url=https://github.com/UE4SS-RE/RE-UE4SS/blob/main/docs/lua-api/table-defi
 [font=Verdana][size=4][b]How to use[/b][/size][/font]
 [size=2]The mod is fairly easy to use. [/size]
 [list][*]When you press mod's toggle key (Default F5) the mod will show new state at the top of the screen (Enabled/Disabled).  
-[*]Alternatively, the mod is enabled when a [url=https://abioticfactor.wiki.gg/wiki/Keypad_Hacker]Keypad Hacker[/url] is equipped in the Hotbar and you hold it in your hands.
+[*]Alternatively, the mod is enabled when a [url=https://abioticfactor.wiki.gg/wiki/Keypad_Hacker]Keypad Hacker[/url] is equipped and selected in the Hotbar (is in your hands).
 [*]While the mod is enabled, each time you move an Item between any inventory slots, it will double it's stack count. It works for all items and you can always split the stack!
 [*]Splitting stacks doesn't trigger the mod, only moving/swapping an item.
 [*]The mod works in Singleplayer, if you're the Host or on Dedicated Server.
