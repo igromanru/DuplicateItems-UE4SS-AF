@@ -22,7 +22,7 @@ WhileHoldingKeypadHacker = true
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.1.0"
+ModVersion = "1.1.1"
 DebugMode = true
 IsModEnabled = false
 
@@ -55,16 +55,18 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
     -- LogDebug("SlotIndex1: " .. originSlotIndex)
     -- LogDebug("SlotIndex2: " .. targetSlotIndex)
     
-    if IsModEnabled or (WhileHoldingKeypadHacker and AFUtils.IsHoldingKeypadHacker(playerCharacter)) then
-        local playerController = AFUtils.GetPlayerController(playerCharacter)
-        if IsValid(playerController) then
-            local itemSlot = AFUtils.GetInventoryItemSlot(targetInventory, targetSlotIndex)
-            if itemSlot then
-                local currentItemStack = itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentStack_9_D443B69044D640B0989FD8A629801A49
-                if not currentItemStack or currentItemStack < 1 then
-                    currentItemStack = 1
+    if (IsModEnabled or (WhileHoldingKeypadHacker and AFUtils.IsHoldingKeypadHacker(playerCharacter))) and IsValid(targetInventory) then
+        if IsNotValid(playerCharacter.CharacterEquipSlotInventory) or playerCharacter.CharacterEquipSlotInventory:GetAddress() ~= targetInventory:GetAddress() then
+            local playerController = AFUtils.GetPlayerController(playerCharacter)
+            if IsValid(playerController) then
+                local itemSlot = AFUtils.GetInventoryItemSlot(targetInventory, targetSlotIndex)
+                if itemSlot then
+                    local currentItemStack = itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentStack_9_D443B69044D640B0989FD8A629801A49
+                    if not currentItemStack or currentItemStack < 1 then
+                        currentItemStack = 1
+                    end
+                    playerController:Server_AddToItemStack(targetInventory, targetSlotIndex, currentItemStack)
                 end
-                playerController:Server_AddToItemStack(targetInventory, targetSlotIndex, currentItemStack)
             end
         end
     end
