@@ -22,11 +22,13 @@ WhileHoldingKeypadHacker = true
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.1.1"
+ModVersion = "1.1.2"
 DebugMode = true
 IsModEnabled = false
 
 LogInfo("Starting mod initialization")
+
+local IsDedicatedServer = AFUtils.IsDedicatedServer()
 
 local function SetModState(Enable)
     ExecuteInGameThread(function()
@@ -93,19 +95,20 @@ local function HookServer_TrySwapItems()
     end
 end
 
--- For hot reload
-if DebugMode then
-    HookServer_TrySwapItems()
-end
-
-RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
-    -- LogDebug("[ClientRestart] called:")
-    HookServer_TrySwapItems()
-    -- LogDebug("------------------------------")
-end)
-
 RegisterKeyBind(ToggleModKey, ToggleModKeyModifiers, function()
     SetModState(not IsModEnabled)
 end)
+
+if not IsDedicatedServer then
+    RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
+        -- LogDebug("[ClientRestart] called:")
+        HookServer_TrySwapItems()
+        -- LogDebug("------------------------------")
+    end)
+end
+
+if DebugMode or IsDedicatedServer then
+    HookServer_TrySwapItems()
+end
 
 LogInfo("Mod loaded successfully")
