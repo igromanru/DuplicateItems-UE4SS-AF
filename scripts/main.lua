@@ -22,7 +22,7 @@ WhileHoldingKeypadHacker = true
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.1.2"
+ModVersion = "1.1.3"
 DebugMode = true
 IsModEnabled = false
 
@@ -91,7 +91,8 @@ end
 local IsServer_TrySwapItemsHooked = false
 local function HookServer_TrySwapItems()
     if not IsServer_TrySwapItemsHooked then
-        IsServer_TrySwapItemsHooked = TryRegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
+        RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
+        IsServer_TrySwapItemsHooked = true
     end
 end
 
