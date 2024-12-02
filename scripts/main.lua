@@ -28,8 +28,6 @@ IsModEnabled = false
 
 LogInfo("Starting mod initialization")
 
-local IsDedicatedServer = AFUtils.IsDedicatedServer()
-
 local function SetModState(Enable)
     ExecuteInGameThread(function()
         Enable = Enable or false
@@ -88,28 +86,13 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
     LogDebug("------------------------------")
 end
 
-local IsServer_TrySwapItemsHooked = false
-local function HookServer_TrySwapItems()
-    if not IsServer_TrySwapItemsHooked then
-        RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
-        IsServer_TrySwapItemsHooked = true
-    end
-end
+ExecuteInGameThread(function()
+    LoadAsset("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C")
+    RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
+end)
 
 RegisterKeyBind(ToggleModKey, ToggleModKeyModifiers, function()
     SetModState(not IsModEnabled)
 end)
-
-if not IsDedicatedServer then
-    RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
-        -- LogDebug("[ClientRestart] called:")
-        HookServer_TrySwapItems()
-        -- LogDebug("------------------------------")
-    end)
-end
-
-if DebugMode or IsDedicatedServer then
-    HookServer_TrySwapItems()
-end
 
 LogInfo("Mod loaded successfully")
