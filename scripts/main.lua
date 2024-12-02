@@ -86,13 +86,15 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
     LogDebug("------------------------------")
 end
 
-ExecuteInGameThread(function()
-    LoadAsset("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C")
-    RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
-end)
-
 RegisterKeyBind(ToggleModKey, ToggleModKeyModifiers, function()
     SetModState(not IsModEnabled)
+end)
+
+ExecuteInGameThread(function()
+    LogInfo("Initializing hooks")
+    LoadAsset("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C")
+    RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
+    LogInfo("Hooks initialized")
 end)
 
 LogInfo("Mod loaded successfully")
