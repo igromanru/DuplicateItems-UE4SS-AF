@@ -22,7 +22,7 @@ WhileHoldingKeypadHacker = true
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.1.3"
+ModVersion = "1.1.4"
 DebugMode = true
 IsModEnabled = false
 
