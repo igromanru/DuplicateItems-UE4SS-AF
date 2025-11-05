@@ -22,7 +22,7 @@ WhileHoldingKeypadHacker = true
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.1.5"
+ModVersion = "1.1.6"
 DebugMode = true
 IsModEnabled = false
 
@@ -78,7 +78,7 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
                     if not currentItemStack or currentItemStack < 1 then
                         currentItemStack = 1
                     end
-                    playerController:Server_AddToItemStack(targetInventory, targetSlotIndex, currentItemStack, 100)
+                    playerController:Server_AddToItemStack(targetInventory, targetSlotIndex, currentItemStack, itemSlot.ChangeableData_12_2B90E1F74F648135579D39A49F5A2313.CurrentItemDurability_4_24B4D0E64E496B43FB8D3CA2B9D161C8)
                 end
             end
         end
