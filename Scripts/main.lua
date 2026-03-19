@@ -22,7 +22,7 @@ WhileHoldingKeypadHacker = true
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.1.6"
+ModVersion = "1.1.7"
 DebugMode = true
 IsModEnabled = false
 
@@ -90,11 +90,15 @@ RegisterKeyBind(ToggleModKey, ToggleModKeyModifiers, function()
     SetModState(not IsModEnabled)
 end)
 
-ExecuteInGameThread(function()
+ClientRestartPreId, ClientRestartPostId = RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
     LogInfo("Initializing hooks")
     LoadAsset("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C")
     RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
     LogInfo("Hooks initialized")
+
+    if ClientRestartPreId then
+        UnregisterHook("/Script/Engine.PlayerController:ClientRestart", ClientRestartPreId, ClientRestartPostId)
+    end
 end)
 
 LogInfo("Mod loaded successfully")
