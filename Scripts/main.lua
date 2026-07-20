@@ -22,7 +22,7 @@ WhileHoldingKeypadHacker = true
 local AFUtils = require("AFUtils.AFUtils")
 
 ModName = "DuplicateItems"
-ModVersion = "1.1.7"
+ModVersion = "1.1.8"
 DebugMode = true
 IsModEnabled = false
 
@@ -30,8 +30,7 @@ LogInfo("Starting mod initialization")
 
 local function SetModState(Enable)
     ExecuteInGameThread(function()
-        Enable = Enable or false
-        IsModEnabled = Enable
+        IsModEnabled = Enable or false
         local state = "Disabled"
         local warningColor =  AFUtils.CriticalityLevels.Red
         if IsModEnabled then
