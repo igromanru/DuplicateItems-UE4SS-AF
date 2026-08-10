@@ -85,19 +85,17 @@ local function Server_TrySwapItemsHook(Context, Inventory1, SlotIndex1, Inventor
     LogDebug("------------------------------")
 end
 
+WaitForTheGameToBeFullyLoaded()
+
 RegisterKeyBind(ToggleModKey, ToggleModKeyModifiers, function()
     SetModState(not IsModEnabled)
 end)
 
-ClientRestartPreId, ClientRestartPostId = RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(Context, NewPawn)
+ExecuteInGameThread(function()
     LogInfo("Initializing hooks")
     LoadAsset("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C")
     RegisterHook("/Game/Blueprints/Characters/Abiotic_PlayerCharacter.Abiotic_PlayerCharacter_C:Server_TrySwapItems", Server_TrySwapItemsHook)
     LogInfo("Hooks initialized")
-
-    if ClientRestartPreId then
-        UnregisterHook("/Script/Engine.PlayerController:ClientRestart", ClientRestartPreId, ClientRestartPostId)
-    end
 end)
 
 LogInfo("Mod loaded successfully")
